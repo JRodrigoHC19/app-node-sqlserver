@@ -1,0 +1,34 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "YourPassword123"
+    networks:
+      - my_overlay_network
+
+  app-express:
+    # build: 
+      # context: ./app
+    image: jaimehuacac/img_express:v3
+    networks:
+      - my_overlay_network
+    links:
+      - sqlserver:db_sqlserver
+    depends_on:
+      - sqlserver
+    # deploy:
+      # replicas: 3
+
+  proxy-inverse:
+    build: 
+      context: ./proxy
+    networks:
+      - my_overlay_network
+    links:
+      - app-express:app-express
+    ports:
+      - "80:80"
+
+networks:
+  my_overlay_network:
