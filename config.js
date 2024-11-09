@@ -5,8 +5,8 @@ const config = {
         server: 'db_sqlserver',
         database: 'master',
         options: {
-            encrypt: false,
-            enableArithAbort: true
+            encrypt: true,
+            trustServerCertificate: true
         }
     },
     hostname: '0.0.0.0',
