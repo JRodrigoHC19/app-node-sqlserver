@@ -15,7 +15,6 @@ services:
     image: jaimehuacac/img_express:v3
     networks:
       - my_overlay_network
-      # - sqlserver:db_sqlserver
     depends_on:
       - db_sqlserver
     # deploy:
@@ -26,9 +25,10 @@ services:
       context: ./proxy
     networks:
       - my_overlay_network
-      # - app-express:app-express
     ports:
-      - "80:80"
+      - "8080:80"
+    depends_on:
+      - app-express
 
 networks:
   my_overlay_network:
