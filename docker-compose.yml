@@ -1,5 +1,6 @@
 services:
-  sqlserver:
+  db_sqlserver:
+    container_name: db_sqlserver
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       ACCEPT_EULA: "Y"
@@ -8,15 +9,15 @@ services:
       - my_overlay_network
 
   app-express:
+    container_name: app-express
     # build: 
       # context: ./app
     image: jaimehuacac/img_express:v3
     networks:
       - my_overlay_network
-    links:
-      - sqlserver:db_sqlserver
+      # - sqlserver:db_sqlserver
     depends_on:
-      - sqlserver
+      - db_sqlserver
     # deploy:
       # replicas: 3
 
@@ -25,10 +26,10 @@ services:
       context: ./proxy
     networks:
       - my_overlay_network
-    links:
-      - app-express:app-express
+      # - app-express:app-express
     ports:
       - "80:80"
 
 networks:
   my_overlay_network:
+    # driver: overlay
